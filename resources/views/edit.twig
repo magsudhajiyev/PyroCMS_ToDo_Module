@@ -1,0 +1,50 @@
+{% include "anomaly.module.todos::layouts/default" %}
+
+<div class="container">
+    <div class="col-md-12">
+            <div class="row px-3">
+                <form >
+                    <div class="form-group">
+                    <input type="hidden" name="id" class="form-control" value="{{todo.id}}">
+                        <label>Todo Name:</label>
+                        <input type="text" name="name" class="form-control" value="{{todo.name}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Todo Body:</label>
+                        <input type="text" name="body" class="form-control" value="{{todo.body}}">
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-success btn-submit">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $(".btn-submit").click(function(e){
+        e.preventDefault();
+
+        var id = $("input[name=id]").val();
+        var name = $("input[name=name]").val();
+        var body = $("input[name=body]").val();
+
+        $.ajax({
+           type:'PUT',
+           url:'/todo/ajaxUpdate/'+id,
+           data:{id: id, name:name, body:body},
+           success:function(data){
+              alert(data.message);
+           }
+        });
+    });
+</script>

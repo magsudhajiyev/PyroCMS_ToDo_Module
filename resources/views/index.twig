@@ -1,0 +1,79 @@
+{% include "anomaly.module.todos::layouts/default" %}
+
+<div class="container">
+    <div class="col-md-12">
+    
+        {% if message != NULL %}
+        <div class="alert alert-danger" role="alert">{{message}}</div>
+        {% endif %}
+
+    <form style="float: left" action="" method="GET">
+        <input class="form-control" type="text" name="keywords" placeholder="Todo Name" style="display: inline-block !important; width: 200px;"></input>
+        <input type="submit" name="action" value="Search" class="btn btn-secondary" style="margin-bottom: 5px;"></input>
+        <button class="btn btn-secondary" type="reset" style="margin-bottom: 5px;">Clear</button>
+    </form>
+
+    <a href="{{ url_route('anomaly.module.todos::create') }}" class="btn btn-primary" role="button" aria-pressed="true" style="margin-left: 20px; margin-bottom: 25px; float:right;">New Todo</a>
+
+        <table class="table" style="margin: 140px 0 30px;">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Todo Name</th>
+                    <th scope="col">Todo Body</th>
+                    <th scope="col" style="float: right; margin-right:30px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for todo in todos %}
+                <tr>
+                    <td>{{ todo.name }}</td>
+                    <td>{{ todo.body }}</td>
+                    <td>
+                        <a style="float:right;" class="btn btn-sm btn-success"
+                            href="{{ url_route('anomaly.module.todos::edit', [todo.id]) }}"
+                            role="button">
+                            <i class="fas fa-pencil-alt" aria-hidden="true"></i>Edit</a>
+                        <a style="float:right; margin-right: 10px;" class="btn btn-sm btn-danger"
+                             data-id="{{todo.id}}"
+                            role="button" onclick="return confirm('This action will delete the record from your table. Do you want to proceed?')">
+                            <i class="fas fa-pencil-alt" aria-hidden="true"></i>Delete</a>
+                    </td>
+                </tr>
+                <th>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ todos.links|raw }}
+        <select class="form-control" style="max-width: 100px; float: right; margin-top: 18px;" onchange="location = '?paginate=' + this.value;">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+    </div>
+</div>
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $('.btn-danger').click(function(e){
+        e.preventDefault();
+
+        var id = $(this).data("id");
+
+        $.ajax({
+           type:'DELETE',
+           url:'/todo/ajaxDelete/'+id,
+           data:{id:id},
+           success:function(data){
+              alert(data.message);
+           }
+        });
+
+        
+    });
+</script>
