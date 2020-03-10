@@ -2,7 +2,8 @@
 
 <div class="container">
     <div class="col-md-12">
-    
+        {% include "theme::partials/messages" %}
+
         {% if message != NULL %}
         <div class="alert alert-danger" role="alert">{{message}}</div>
         {% endif %}
@@ -44,7 +45,7 @@
             </tbody>
         </table>
         {{ todos.links|raw }}
-        <select class="form-control" style="max-width: 100px; float: right; margin-top: 18px;" onchange="location = '?paginate=' + this.value;">
+        <select class="form-control" id="paginator" style="max-width: 100px; float: right; margin-top: 18px;" onchange="location = '?paginate=' + this.value;">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
@@ -73,7 +74,5 @@
               alert(data.message);
            }
         });
-
-        
     });
 </script>

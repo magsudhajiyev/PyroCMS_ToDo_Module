@@ -2,6 +2,9 @@
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 use Anomaly\TodosModule\Todo\Contract\TodoRepositoryInterface;
+use Anomaly\TodosModule\Todo\Events\NewTodo;
+use Anomaly\TodosModule\Todo\Listener\SendTodoMail;
+use Anomaly\TodosModule\Todo\Notification\SendNewTodoMail;
 use Anomaly\TodosModule\Todo\TodoRepository;
 use Anomaly\TodosModule\Todo\Form\TodoFormBuilder;
 use Anomaly\Streams\Platform\Model\Todos\TodosTodosEntryModel;
@@ -50,6 +53,21 @@ class TodosModuleServiceProvider extends AddonServiceProvider
             'uses' => 'Anomaly\TodosModule\Http\Controller\TodoController@index'
         ],
 
+        'todo/export_import' => [
+            'as' => 'anomaly.module.todos::export_import',
+            'uses' => 'Anomaly\TodosModule\Http\Controller\TodoController@export_import'
+        ],
+
+        'todo/export' => [
+            'as' => 'anomaly.module.todos::export',
+            'uses' => 'Anomaly\TodosModule\Http\Controller\TodoController@export'
+        ],
+
+        'todo/import' => [
+            'as' => 'anomaly.module.todos::import',
+            'uses' => 'Anomaly\TodosModule\Http\Controller\TodoController@import'
+        ],
+
         'todo/create' => [
             'as' => 'anomaly.module.todos::create',
             'uses' => 'Anomaly\TodosModule\Http\Controller\TodoController@create',
@@ -64,13 +82,13 @@ class TodosModuleServiceProvider extends AddonServiceProvider
             'as' => 'anomaly.module.todos::delete',
             'uses' => 'Anomaly\TodosModule\Http\Controller\TodoController@delete',
         ],
-        
-        'todo/ajaxCreate' =>'Anomaly\TodosModule\Http\Controller\TodoController@ajaxCreate',
-        'todo/ajaxDelete/{id}' =>'Anomaly\TodosModule\Http\Controller\TodoController@ajaxDelete',
-        'todo/ajaxUpdate/{id}' =>'Anomaly\TodosModule\Http\Controller\TodoController@ajaxUpdate',
 
-        'admin/todos'           => 'Anomaly\TodosModule\Http\Controller\Admin\TodosController@index',
-        'admin/todos/create'    => 'Anomaly\TodosModule\Http\Controller\Admin\TodosController@create',
+        'todo/ajaxCreate' => 'Anomaly\TodosModule\Http\Controller\TodoController@ajaxCreate',
+        'todo/ajaxDelete/{id}' => 'Anomaly\TodosModule\Http\Controller\TodoController@ajaxDelete',
+        'todo/ajaxUpdate/{id}' => 'Anomaly\TodosModule\Http\Controller\TodoController@ajaxUpdate',
+
+        'admin/todos' => 'Anomaly\TodosModule\Http\Controller\Admin\TodosController@index',
+        'admin/todos/create' => 'Anomaly\TodosModule\Http\Controller\Admin\TodosController@create',
         'admin/todos/edit/{id}' => 'Anomaly\TodosModule\Http\Controller\Admin\TodosController@edit',
     ];
 
@@ -107,9 +125,9 @@ class TodosModuleServiceProvider extends AddonServiceProvider
      * @type array|null
      */
     protected $listeners = [
-        //Anomaly\TodosModule\Event\ExampleEvent::class => [
-        //    Anomaly\TodosModule\Listener\ExampleListener::class,
-        //],
+        NewTodo::class => [
+            SendTodoMail::class,
+        ],
     ];
 
     /**

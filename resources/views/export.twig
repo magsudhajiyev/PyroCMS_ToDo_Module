@@ -1,0 +1,18 @@
+{% include "anomaly.module.todos::layouts/default" %}
+
+<div class="container">
+    <div class="card bg-light mt-3">
+        <div class="card-header">
+            Laravel 5.8 Import Export Excel to database Example - ItSolutionStuff.com
+        </div>
+        <div class="card-body">
+            <form action="{{ url_route('anomaly.module.todos::import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="file" name="file" class="form-control">
+                <br>
+                <button class="btn btn-success">Import Todo Data</button>
+                <a class="btn btn-warning" href="{{ url_route('anomaly.module.todos::export') }}">Export Todo Data</a>
+            </form>
+        </div>
+    </div>
+</div>
