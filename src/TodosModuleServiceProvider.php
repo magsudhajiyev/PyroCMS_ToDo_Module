@@ -2,9 +2,10 @@
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 use Anomaly\TodosModule\Todo\Contract\TodoRepositoryInterface;
+
 use Anomaly\TodosModule\Todo\Events\NewTodo;
-use Anomaly\TodosModule\Todo\Listener\SendTodoMail;
-use Anomaly\TodosModule\Todo\Notification\SendNewTodoMail;
+use Anomaly\NotificationModule\Notify\Listener\SendMail;
+
 use Anomaly\TodosModule\Todo\TodoRepository;
 use Anomaly\TodosModule\Todo\Form\TodoFormBuilder;
 use Anomaly\Streams\Platform\Model\Todos\TodosTodosEntryModel;
@@ -51,11 +52,6 @@ class TodosModuleServiceProvider extends AddonServiceProvider
         '/todo' => [
             'as' => 'anomaly.module.todos::index',
             'uses' => 'Anomaly\TodosModule\Http\Controller\TodoController@index'
-        ],
-
-        'todo/export_import' => [
-            'as' => 'anomaly.module.todos::export_import',
-            'uses' => 'Anomaly\TodosModule\Http\Controller\TodoController@export_import'
         ],
 
         'todo/export' => [
@@ -126,7 +122,7 @@ class TodosModuleServiceProvider extends AddonServiceProvider
      */
     protected $listeners = [
         NewTodo::class => [
-            SendTodoMail::class,
+            SendMail::class,
         ],
     ];
 

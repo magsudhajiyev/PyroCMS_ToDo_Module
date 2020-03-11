@@ -6,6 +6,11 @@ class NewTodo
 {
 
     public $todo;
+    public $user;
+    /**
+     * @var \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    
 
     public function __construct($todo)
     {

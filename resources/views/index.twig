@@ -8,7 +8,17 @@
         <div class="alert alert-danger" role="alert">{{message}}</div>
         {% endif %}
 
-    <form style="float: left" action="" method="GET">
+    <div class="card-body" style="margin-bottom: 100px;">
+        <form action="{{ url_route('anomaly.module.todos::import') }}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" class="form-control">
+            <input type="hidden" value="{{ csrf_token() }}" name="_token">
+                <br>
+            <button type="submit" name="upload" value="upload" class="btn btn-success">Import</button>
+            <a class="btn btn-warning" href="{{ url_route('anomaly.module.todos::export') }}">Export</a>
+        </form>
+    </div>
+
+    <form style="float: left">
         <input class="form-control" type="text" name="keywords" placeholder="Todo Name" style="display: inline-block !important; width: 200px;"></input>
         <input type="submit" name="action" value="Search" class="btn btn-secondary" style="margin-bottom: 5px;"></input>
         <button class="btn btn-secondary" type="reset" style="margin-bottom: 5px;">Clear</button>
@@ -72,6 +82,7 @@
            data:{id:id},
            success:function(data){
               alert(data.message);
+              window.location.reload();
            }
         });
     });

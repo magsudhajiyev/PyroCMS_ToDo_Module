@@ -78,7 +78,7 @@ class TodoController extends AdminController
             $todo->body = $body;
 
             $todo->save();
-            
+
             event(new NewTodo($todo));
 
             return response()->json(['message' => 'You have succesfully created new todo!']);
@@ -126,11 +126,6 @@ class TodoController extends AdminController
         return response()->json(['message' => 'You have succesfully deleted this record']);
     }
 
-    public function export_import()
-    {
-        return $this->view->make('anomaly.module.todos::export');
-    }
-
     public function export()
     {
         return Excel::download(new TodosExport, 'todos.xlsx');
@@ -140,7 +135,7 @@ class TodoController extends AdminController
 
     public function import()
     {
-        //Excel::import(new TodosImport,request()->file('file'));
+        Excel::import(new TodosImport,request()->file('file'));
     }
 
 }
