@@ -136,6 +136,16 @@ class TodoController extends AdminController
     public function import()
     {
         Excel::import(new TodosImport,request()->file('file'));
+        return $this->view->make('anomaly.module.todos::index');
+    }
+
+    public function algSearch()
+    {
+        $query = 'Todo'; // <-- Change the query for testing.
+
+        $todos = TodoModel::search($query)->get();
+        dd($todos);
+        return $todos;
     }
 
 }

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class TodoModel extends TodosTodosEntryModel implements TodoInterface
 {
     use Searchable;
-    
+
     public function getTodo($id = null) {
         if($id == null)
         {
@@ -22,4 +22,25 @@ class TodoModel extends TodosTodosEntryModel implements TodoInterface
         return $this->getTodo($id)->first();
     }
 
+    /*public function shouldBeSearchable()
+    {
+        return $this->isPublished();
+    }*/
+
+    public function searchableAs()
+    {
+        return 'TODOS';
+    }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        return $array;
+    }
+
+    public function getScoutKey()
+    {
+        return $this->id;
+    }
 }

@@ -54,6 +54,11 @@ class TodosModuleServiceProvider extends AddonServiceProvider
             'uses' => 'Anomaly\TodosModule\Http\Controller\TodoController@index'
         ],
 
+        '/todo/search' => [
+            'as' => 'anomaly.module.todos::search',
+            'uses' => 'Anomaly\TodosModule\Http\Controller\TodoController@algSearch'
+        ],
+
         'todo/export' => [
             'as' => 'anomaly.module.todos::export',
             'uses' => 'Anomaly\TodosModule\Http\Controller\TodoController@export'
